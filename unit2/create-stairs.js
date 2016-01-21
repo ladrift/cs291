@@ -42,6 +42,7 @@ function createStairs() {
 	var stepHorizontal = new THREE.CubeGeometry(stepWidth, stepThickness, horizontalStepDepth);
 	var stepMesh;
 
+	/*
 	// Make and position the vertical part of the step
 	stepMesh = new THREE.Mesh( stepVertical, stepMaterialVertical );
 	// The position is where the center of the block will be put.
@@ -59,6 +60,29 @@ function createStairs() {
 	// Push step forward by half the depth, minus half the vertical step's thickness
 	stepMesh.position.z = horizontalStepDepth/2 - stepHalfThickness;
 	scene.add( stepMesh );
+	*/
+
+	var raiserHeight = verticalStepHeight + stepThickness;
+	var raiserForword = horizontalStepDepth - stepThickness;
+
+	// Loop for generate all stairs
+	for (var i = 0; i < 6; ++i) {
+		// Y is up and Z is forword to Cup
+		// veritcal cube mesh
+		stepMesh = new THREE.Mesh(stepVertical, stepMaterialVertical);
+		stepMesh.position.x = 0;
+		stepMesh.position.y = verticalStepHeight / 2 + i * raiserHeight;
+		stepMesh.position.z = i * raiserForword;
+		scene.add(stepMesh);
+
+		// horizontal cube mesh
+		stepMesh = new THREE.Mesh(stepHorizontal, stepMaterialHorizontal);
+		stepMesh.position.x = 0;
+		stepMesh.position.y = stepThickness/2 + verticalStepHeight + i * raiserHeight;
+		// Push step forward by half the depth, minus half the vertical step's thickness
+		stepMesh.position.z = horizontalStepDepth/2 - stepHalfThickness + i * raiserForword;
+		scene.add(stepMesh);
+	}
 }
 
 function createCup() {
